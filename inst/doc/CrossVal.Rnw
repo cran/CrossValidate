@@ -1,0 +1,130 @@
+%\VignetteIndexEntry{CrossValidate}
+%\VignetteKeywords{Cross Validation,Class Prediction}
+%\VignetteDepends{CrossValidate}
+%\VignettePackage{CrossValidate}
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8in}
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+
+\title{Crosss Validation of Class Predictions}
+\author{Kevin R. Coombes}
+
+\begin{document}
+
+\setkeys{Gin}{width=6.5in}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+When building models to make predictions of a binary outcome from
+omics-scale data, it is especially useful to thoroughly cross-validate
+those models by repeatedly splitting the data into training and test
+sets. The \Rpackage{CrossValidate} package provides tools to simplify
+this procedure.
+
+\section{A Simple Example}
+We start by loading the package
+<<lib>>=
+library(CrossValidate)
+@ 
+Now we simulate a data set with no structure that we can use to test
+the methods.
+<<dataset>>=
+set.seed(123456)
+nFeatures <- 1000
+nSamples <- 60
+pseudoclass <- factor(rep(c("A", "B"), each = 30))
+dataset <- matrix(rnorm(nFeatures * nSamples), nrow = nFeatures)
+@ 
+
+Now we pick a model that we would like to cross-validate.  To start,
+we will use K nearest neighbors (KNN) with $K=3$.
+<<nn>>=
+model <- modeler5NN
+@ 
+The we invoke the cross-validation procedure.
+<<cv>>=
+cv <- CrossValidate(model, dataset, pseudoclass, frac = 0.6, nLoop = 30)
+@ 
+By default (\Rcode{verbose = TRUE}), the cross validation procedure
+prints out a counter for each iteration.  This behavior can be
+overridden by setting \Rcode{verbose = FALSE}.
+<<summary>>=
+summary(cv)
+@ 
+The summary reports the performance separately on the training data
+and the testing data.  In this case, KNN overfits the training data
+(getting roughly 70\% of the ``predictions'' correct) but is no
+better than coin toss on the test data.
+
+\section{Testing Multiple Models}
+A primary advantage of defining a common interface to different
+classification methods is that you can write code that tests them all
+in exactly the same way.  For example, let's suppose that we want to
+compare the KNN method above to the method of compound covariate
+predictors.  We can then do the following.
+<<models>>=
+models <- list(KNN = modeler5NN, CCP = modelerCCP)
+results <- lapply(models, CrossValidate,
+                  data = dataset, status = pseudoclass,
+                  frac = 0.6, nLoop = 30, verbose = FALSE)
+lapply(results, summary)
+@ 
+The performance of KNN with this set of training-test splits is simila
+to the previous set. The CCP metod, by contrast, behaves much
+worse. It perfectly fits (and so overfits) the training data and
+consequently actually manages to do \emph{worse} than chance on the
+test data.
+
+\section{Filtering and Pruning}
+Having a common interface also lets us write code that combines the
+same modeling method with different algorothms to filter genes (by
+something like mean expression, for example) or to perform feature
+selection (using univariate t-tests, for example).  Many such methods
+are prvoided by the \Rpacakge{Modeler} package on which
+\Rpacakge{CrossValidate} depends. Here we show how to combine the KNN
+method with several different methods to preprocess the set of
+features. 
+
+Here we show how to do this the wrong way.
+<<daloop>>=
+pruners <- list(ttest = fsTtest(fdr = 0.05, ming = 100),
+                cor = fsPearson(q = 0.90),
+                ent = fsEntropy(q = 0.90, kind = "information.gain"))
+for (p in pruners) {
+  pdata <- dataset[p(dataset, pseudoclass),]
+  cv <- CrossValidate(model, pdata, pseudoclass, 0.6, 30, verbose=FALSE)
+  show(summary(cv))
+}
+@ 
+We can tell that this method is wrong because the validation accuracy
+is much better than chance---which is impossible on a dataset without
+any true structure.  The problem is that we have aplied the fature
+selection method to the combined (training plus test) dataset, which
+allows information from the test data to creep into the model building
+step. 
+
+Now we can do it the right way, with the feature selection step
+included inside the cross-validation loop.
+
+<<betterloop>>=
+for (p in pruners) {
+  cv <- CrossValidate(model, dataset, pseudoclass, 0.6, 30, 
+                      prune=p, verbose=FALSE)
+  show(summary(cv))
+}
+@ 
+
+
+\end{document}

@@ -1,0 +1,68 @@
+			Dear Emacs, please make this -*-Text-*- mode!
+	**************************************************
+	*						 *
+	*	       2.3 SERIES NEWS			 *
+	*						 *
+	**************************************************
+
+
+		CHANGES IN R VERSION 2.3.0
+
+CHANGES
+
+    o	Added an exta argument to the CrossValidate constructor to
+        include a feature selection algorithm within the loop.
+
+    o	Fleshed out the manual pages
+
+    o	Added a vignette
+
+BUG FIXES
+
+    o	Fixed a problem with the CrossValSummary class that caused it
+        to misbehave when used in the context of something like lapply.
+
+
+		CHANGES IN R VERSION 2.2.0
+
+ADMINISTRATIVE
+
+    o	Changed LICENSE to Apache 2.0
+
+		CHANGES IN R VERSION 2.0.1
+
+BUG FIXES
+
+    o	Changed the name of the package to avoid conflict with an
+	existing CRAN project (using different case).
+
+		CHANGES IN R VERSION 2.0.1
+
+BUG FIXES
+
+    o	Made compatible with new R check steps that verify DESCRIPTION
+        and NAMESPACE dependencies.
+
+		CHANGES IN R VERSION 2.0.0
+
+PACKAGING
+
+    o	Separated the model learning-predicting code from the 
+    cross-validation code.
+
+
+		CHANGES IN R VERSION 1.0.1
+
+BUG FIXES
+
+    o	Documentation updates.
+
+
+		CHANGES IN R VERSION 1.0.0
+
+NEW FEATURES
+
+    o	Brand new packaging: split out from the ClassPrediction
+    package, which is being restructured as a poor man's bundle
+    (i.e., no code, just some "depends" rules).
+

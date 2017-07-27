@@ -1,0 +1,22 @@
+###
+### NAMESPACE
+###
+
+import(Modeler)
+
+importFrom("methods", "new")
+
+## various generics
+importMethodsFrom(methods, "show")
+importMethodsFrom(oompaBase, "summary")
+
+exportMethods("show", "summary")
+
+## xv00-utility
+export("balancedSplit")
+
+## xv02-CrossVal
+exportClasses("CrossValidate", "CrossValSummary")
+export("CrossValidate") # generator
+
+

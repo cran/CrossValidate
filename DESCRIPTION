@@ -1,6 +1,6 @@
 Package: CrossValidate
-Version: 2.3.2
-Date: 2018-05-17
+Version: 2.3.3
+Date: 2019-04-23
 Title: Classes and Methods for Cross Validation of "Class Prediction"
         Algorithms
 Author: Kevin R. Coombes
@@ -16,6 +16,6 @@ LazyLoad: yes
 biocViews: Microarray, Clustering
 URL: http://oompa.r-forge.r-project.org
 NeedsCompilation: no
-Packaged: 2018-05-17 21:54:27 UTC; Kevin
+Packaged: 2019-04-23 14:27:00 UTC; Kevin
 Repository: CRAN
-Date/Publication: 2018-05-18 03:17:01 UTC
+Date/Publication: 2019-04-23 15:40:02 UTC

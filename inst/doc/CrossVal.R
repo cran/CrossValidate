@@ -65,5 +65,3 @@ for (p in pruners) {
                       prune=p, verbose=FALSE)
   show(summary(cv))
 }
-
-

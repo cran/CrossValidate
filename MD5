@@ -1,13 +1,13 @@
-afcf81a3b82c4dc0a8426fbb1df710f7 *DESCRIPTION
+887ea2f7b17d3d22052646a55b21594f *DESCRIPTION
 2cad9d14d2b68564c1193db08ae2809a *NAMESPACE
 45206a38e42a7357076550173d5b6f3e *NEWS
 66bb136bab4ab005198318d570323219 *R/xv00-utility.R
 61bee99aae686566c7309f7146fd127b *R/xv02-CrossVal.R
 5f58118d7d61cfdc7c972cce8f48d774 *TODO
-8e2044f917f1c6888edcf14042bb1874 *build/vignette.rds
-f7b55c226e750b7766e9e9d678895731 *inst/doc/CrossVal.R
+e621d3c70e46ed6b8fa9a6f0f9ceab51 *build/vignette.rds
+f5dac744a466878dee8a5d16d855c4ef *inst/doc/CrossVal.R
 98da3f25e0792774337b069546d40cdc *inst/doc/CrossVal.Rnw
-62380bbea081b0a0306fde076cbbf7a2 *inst/doc/CrossVal.pdf
+1553f73aa31079aba3373902d71b2926 *inst/doc/CrossVal.pdf
 0e24f77c86c692b281bbe284627c44bc *man/CrossVal-class.Rd
 4634de1a326931f8873930dade77a788 *man/CrossVal.Rd
 c7a492a1b5b4a76d5d4c72cd55b9f41b *man/CrossValSummary-class.Rd
